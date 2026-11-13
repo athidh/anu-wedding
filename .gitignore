@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Next.js build outputs
+.next/
+*/.next/
+out/
+*/out/
+build/
+*/build/
+
+# Environment files
+.env
+.env*.local
+*.env
+*/.env
+*/.env*.local
+
+# Playwright MCP artifacts
+.playwright-mcp/
+*/.playwright-mcp/
+
+# OS and debug logs
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+next-env.d.ts
+*/next-env.d.ts
+
+# Zip backups
+*.zip
