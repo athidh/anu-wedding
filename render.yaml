@@ -47,3 +47,4 @@ services:
         value: production
       - key: NEXT_PUBLIC_API_URL
         sync: false
+

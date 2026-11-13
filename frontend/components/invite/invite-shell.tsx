@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { IntroGate } from './intro-gate'
+import { MusicPlayer } from './music-player'
 import { RsvpProvider } from './rsvp'
 
 const OpenedContext = createContext(false)
@@ -21,6 +22,7 @@ export function InviteShell({ children }: { children: ReactNode }) {
   return (
     <OpenedContext.Provider value={opened}>
       <IntroGate open={opened} onOpen={handleOpen} />
+      <MusicPlayer open={opened} />
       <RsvpProvider showFloating={opened}>{children}</RsvpProvider>
     </OpenedContext.Provider>
   )

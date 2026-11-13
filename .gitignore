@@ -34,3 +34,7 @@ next-env.d.ts
 # Zip backups
 *.zip
 
+# Loose root audio file
+/*.mp3
+!frontend/public/audio/*.mp3
+
