@@ -83,3 +83,4 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 - **RSVP Attendance Dialog**: Full name input, attending/declined selection, number of attendees counter (1-10 with stepper), optional warm wishes, and bot honeypot protection.
 - **Admin Dashboard**: Live attendee headcount, responses over time area chart, attendance distribution donut chart, searchable & filterable table/cards with duplicate detection, and 1-click CSV export.
 - **Mobile & Desktop Responsive**: Fully optimized with touch gestures, sliding drawers, and adaptive cards for smartphones, tablets, and PCs.
+
