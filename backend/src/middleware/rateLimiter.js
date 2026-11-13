@@ -6,6 +6,7 @@ const rsvpLimiter = rateLimit({
   max: 15, // max 15 submissions per IP
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many RSVP requests from this connection. Please try again in a few minutes.',
@@ -16,9 +17,10 @@ const rsvpLimiter = rateLimit({
 // Strict rate limiter for admin login endpoint (prevents brute-force)
 const adminLoginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // max 5 failed attempts per IP
+  max: 10, // max 10 failed attempts per IP
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many login attempts. Please wait 15 minutes before trying again.',

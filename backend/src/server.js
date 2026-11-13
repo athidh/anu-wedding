@@ -19,6 +19,9 @@ if (!fs.existsSync(envPath) && !process.env.MONGODB_URI) {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust reverse proxy (Render, Cloudflare, load balancers)
+app.set('trust proxy', 1);
+
 // Security Headers (disable CSP so dashboard.html can load styles, fonts and scripts easily)
 app.use(
   helmet({
@@ -50,11 +53,12 @@ app.use(
 // Body Parser
 app.use(express.json({ limit: '50kb' }));
 
-// Health Check Endpoint
-app.get('/api/health', (req, res) => {
+// Health & Ping Endpoints (Never rate-limited, ideal for UptimeRobot / uptime monitors)
+app.get(['/', '/health', '/api/health'], (req, res) => {
   res.json({
     status: 'ok',
-    uptime: process.uptime(),
+    service: 'anu-wedding-backend',
+    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
     database: isConnected() ? 'connected' : 'connecting_or_disconnected',
   });

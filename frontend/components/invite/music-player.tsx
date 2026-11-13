@@ -110,3 +110,4 @@ export function MusicPlayer({ open }: MusicPlayerProps) {
     </>
   )
 }
+
