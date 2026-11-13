@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Rsvp = require('../models/Rsvp');
-const { requireAdminAuth } = require('../middleware/auth');
+const { requireAdminAuth, REQUIRE_PASSWORD } = require('../middleware/auth');
 const { adminLoginLimiter } = require('../middleware/rateLimiter');
 const { isConnected } = require('../config/db');
 
@@ -14,6 +14,16 @@ const { isConnected } = require('../config/db');
  */
 router.post('/login', adminLoginLimiter, async (req, res) => {
   try {
+    // If password requirement is disabled, immediately authenticate
+    if (!REQUIRE_PASSWORD) {
+      return res.json({
+        success: true,
+        message: 'Password requirement is currently disabled.',
+        token: 'public-access-token',
+        expiresIn: 'unlimited',
+      });
+    }
+
     const { password } = req.body;
 
     if (!password || typeof password !== 'string') {

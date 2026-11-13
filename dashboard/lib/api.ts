@@ -1,3 +1,5 @@
+import { REQUIRE_PASSWORD } from '@/config/auth';
+
 export type Rsvp = {
   id: string;
   name: string;
@@ -55,10 +57,15 @@ export const clearAuthToken = () => {
 };
 
 export const isAuthenticated = (): boolean => {
+  if (!REQUIRE_PASSWORD) return true;
   return Boolean(getAuthToken());
 };
 
 export async function loginAdmin(password: string): Promise<{ success: boolean; token?: string; message?: string }> {
+  if (!REQUIRE_PASSWORD) {
+    return { success: true, token: 'public-access' };
+  }
+
   const baseUrl = getApiBaseUrl();
   try {
     const res = await fetch(`${baseUrl}/api/admin/login`, {
@@ -84,20 +91,20 @@ export async function loginAdmin(password: string): Promise<{ success: boolean; 
 }
 
 export async function getRsvps(): Promise<Rsvp[]> {
-  const token = getAuthToken();
-  if (!token) {
+  const token = getAuthToken() || (!REQUIRE_PASSWORD ? 'public-access' : null);
+  if (!token && REQUIRE_PASSWORD) {
     throw new AuthError('Please enter admin password to view responses.');
   }
 
   const baseUrl = getApiBaseUrl();
   const res = await fetch(`${baseUrl}/api/admin/rsvps`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || 'public-access'}`,
       'Content-Type': 'application/json',
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
+  if ((res.status === 401 || res.status === 403) && REQUIRE_PASSWORD) {
     clearAuthToken();
     throw new AuthError('Session expired. Please log in again.');
   }
@@ -120,20 +127,20 @@ export async function getRsvps(): Promise<Rsvp[]> {
 }
 
 export async function getStats(rsvpsList?: Rsvp[]): Promise<DashboardStats> {
-  const token = getAuthToken();
-  if (!token) {
+  const token = getAuthToken() || (!REQUIRE_PASSWORD ? 'public-access' : null);
+  if (!token && REQUIRE_PASSWORD) {
     throw new AuthError('Please enter admin password.');
   }
 
   const baseUrl = getApiBaseUrl();
   const res = await fetch(`${baseUrl}/api/admin/stats`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || 'public-access'}`,
       'Content-Type': 'application/json',
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
+  if ((res.status === 401 || res.status === 403) && REQUIRE_PASSWORD) {
     clearAuthToken();
     throw new AuthError('Session expired.');
   }
@@ -171,8 +178,8 @@ export async function getStats(rsvpsList?: Rsvp[]): Promise<DashboardStats> {
 }
 
 export async function deleteRsvp(id: string): Promise<void> {
-  const token = getAuthToken();
-  if (!token) {
+  const token = getAuthToken() || (!REQUIRE_PASSWORD ? 'public-access' : null);
+  if (!token && REQUIRE_PASSWORD) {
     throw new AuthError('Please log in.');
   }
 
@@ -180,12 +187,12 @@ export async function deleteRsvp(id: string): Promise<void> {
   const res = await fetch(`${baseUrl}/api/admin/rsvps/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || 'public-access'}`,
       'Content-Type': 'application/json',
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
+  if ((res.status === 401 || res.status === 403) && REQUIRE_PASSWORD) {
     clearAuthToken();
     throw new AuthError('Session expired.');
   }
@@ -197,19 +204,19 @@ export async function deleteRsvp(id: string): Promise<void> {
 }
 
 export async function exportCsv(): Promise<void> {
-  const token = getAuthToken();
-  if (!token) {
+  const token = getAuthToken() || (!REQUIRE_PASSWORD ? 'public-access' : null);
+  if (!token && REQUIRE_PASSWORD) {
     throw new AuthError('Please log in.');
   }
 
   const baseUrl = getApiBaseUrl();
   const res = await fetch(`${baseUrl}/api/admin/export.csv`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || 'public-access'}`,
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
+  if ((res.status === 401 || res.status === 403) && REQUIRE_PASSWORD) {
     clearAuthToken();
     throw new AuthError('Session expired.');
   }

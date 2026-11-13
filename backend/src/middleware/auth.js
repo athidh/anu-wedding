@@ -1,6 +1,18 @@
 const jwt = require('jsonwebtoken');
 
+// =========================================================================
+// PASSWORD REQUIREMENT TOGGLE
+// Set to true whenever you want to re-enable password requirement
+// =========================================================================
+const REQUIRE_PASSWORD = false;
+
 function requireAdminAuth(req, res, next) {
+  // If password requirement is disabled, allow immediate access
+  if (!REQUIRE_PASSWORD) {
+    req.admin = { role: 'admin', bypass: true };
+    return next();
+  }
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -39,5 +51,7 @@ function requireAdminAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAdminAuth };
-
+module.exports = { 
+  requireAdminAuth,
+  REQUIRE_PASSWORD 
+};

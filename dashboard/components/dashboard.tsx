@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { event } from '@/config/event';
+import { REQUIRE_PASSWORD } from '@/config/auth';
 import {
   AuthError,
   clearAuthToken,
@@ -137,16 +138,18 @@ export function DashboardHeader({
             <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
           </Button>
 
-          <Button
-            onClick={onLogout}
-            aria-label="Lock dashboard"
-            title="Lock dashboard"
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 rounded-full border border-cream/20 text-cream transition-transform active:scale-95 hover:bg-cream/10 hover:text-cream sm:h-10 sm:w-10"
-          >
-            <Lock className="h-4 w-4 text-gold" />
-          </Button>
+          {REQUIRE_PASSWORD && (
+            <Button
+              onClick={onLogout}
+              aria-label="Lock dashboard"
+              title="Lock dashboard"
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-full border border-cream/20 text-cream transition-transform active:scale-95 hover:bg-cream/10 hover:text-cream sm:h-10 sm:w-10"
+            >
+              <Lock className="h-4 w-4 text-gold" />
+            </Button>
+          )}
         </div>
       </div>
     </header>
@@ -734,7 +737,7 @@ export function EmptyState({ filtered }: { filtered: boolean }) {
 }
 
 export default function Dashboard() {
-  const [authed, setAuthed] = useState<boolean>(false);
+  const [authed, setAuthed] = useState<boolean>(!REQUIRE_PASSWORD || isAuthenticated());
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
   const [stats, setStats] = useState<DashboardStats>({
     peopleAttending: 0,
@@ -841,6 +844,10 @@ export default function Dashboard() {
   };
 
   const handleLogout = () => {
+    if (!REQUIRE_PASSWORD) {
+      toast.info('Password requirement is currently disabled.');
+      return;
+    }
     clearAuthToken();
     setAuthed(false);
     toast('Dashboard locked');
