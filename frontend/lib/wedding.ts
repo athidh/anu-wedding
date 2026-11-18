@@ -32,9 +32,9 @@ export const events: WeddingEvent[] = [
     timeLabel: 'Muhurtham between',
     time: '9:30 am to 10:30 am',
     note: 'Wedding party departs at 7:00 am',
-    venue: 'Cloud 7 Convention Center',
-    place: 'Pathirippala, Palakkad',
-    mapQuery: 'Cloud 7 Convention Center, Pathirippala, Palakkad, Kerala',
+    venue: 'Cloud 7 Convention Centre',
+    place: 'Keralaserry, Palakkad',
+    mapQuery: 'Cloud 7 Convention Centre, Keralaserry, Palakkad, Kerala',
     calendar: { start: '20261213T040000Z', end: '20261213T050000Z' },
   },
   {
