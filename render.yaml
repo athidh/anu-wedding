@@ -21,11 +21,11 @@ services:
         value: "*"
 
   # 2. Wedding Invitation Frontend Website
-  - type: static
+  - type: web
     name: anu-wedding-invitation
-    runtime: static
+    runtime: node
     rootDir: frontend
-    plan: free
+    plan: starter
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     envVars:
@@ -35,11 +35,11 @@ services:
         sync: false
 
   # 3. Admin RSVP Dashboard
-  - type: static
+  - type: web
     name: anu-wedding-dashboard
-    runtime: static
+    runtime: node
     rootDir: dashboard
-    plan: free
+    plan: starter
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     envVars:
