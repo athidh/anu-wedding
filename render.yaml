@@ -23,7 +23,7 @@ services:
   # 2. Wedding Invitation Frontend Website
   - type: web
     name: anu-wedding-invitation
-    runtime: node
+    runtime: static
     rootDir: frontend
     plan: free
     buildCommand: npm install --include=dev && npm run build
@@ -37,7 +37,7 @@ services:
   # 3. Admin RSVP Dashboard
   - type: web
     name: anu-wedding-dashboard
-    runtime: node
+    runtime: static
     rootDir: dashboard
     plan: free
     buildCommand: npm install --include=dev && npm run build
