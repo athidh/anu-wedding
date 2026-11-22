@@ -21,7 +21,7 @@ services:
         value: "*"
 
   # 2. Wedding Invitation Frontend Website
-  - type: web
+  - type: static
     name: anu-wedding-invitation
     runtime: static
     rootDir: frontend
@@ -35,7 +35,7 @@ services:
         sync: false
 
   # 3. Admin RSVP Dashboard
-  - type: web
+  - type: static
     name: anu-wedding-dashboard
     runtime: static
     rootDir: dashboard
