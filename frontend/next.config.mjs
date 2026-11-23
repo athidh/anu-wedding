@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   devIndicators: false,
   allowedDevOrigins: [
     '192.168.20.2',
